@@ -46,8 +46,14 @@ func LoadShaderCode(vsCode string, fsCode string) Shader {
 	cfsCode := C.CString(fsCode)
 	defer C.free(unsafe.Pointer(cfsCode))
 
-	ret := C.LoadShaderCode(cvsCode, cfsCode)
-	v := newShaderFromPointer(unsafe.Pointer(&ret))
+	var v Shader
+	if vsCode == "" {
+		ret := C.LoadShaderCode(nil, cfsCode)
+		v = newShaderFromPointer(unsafe.Pointer(&ret))
+	} else {
+		ret := C.LoadShaderCode(cvsCode, cfsCode)
+		v = newShaderFromPointer(unsafe.Pointer(&ret))
+	}
 
 	return v
 }
