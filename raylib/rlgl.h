@@ -3758,7 +3758,7 @@ static unsigned int CompileShader(const char *shaderStr, int type)
 
     if (success != GL_TRUE)
     {
-        TraceLog(LOG_WARNING, "[SHDR ID %i] Failed to compile shader...", shader);
+        printf("[SHDR ID %i] Failed to compile shader...\n", shader);
         int maxLength = 0;
         int length;
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
@@ -3770,7 +3770,7 @@ static unsigned int CompileShader(const char *shaderStr, int type)
 #endif
         glGetShaderInfoLog(shader, maxLength, &length, log);
 
-        TraceLog(LOG_INFO, "%s", log);
+        printf("\nOpenGL Error Output:\n====\n%s\n====\n", log);
 
 #if defined(_MSC_VER)
         free(log);
@@ -3812,7 +3812,7 @@ static unsigned int LoadShaderProgram(unsigned int vShaderId, unsigned int fShad
 
     if (success == GL_FALSE)
     {
-        TraceLog(LOG_WARNING, "[SHDR ID %i] Failed to link shader program...", program);
+        printf("[SHDR ID %i] Failed to link shader program...\n", program);
 
         int maxLength = 0;
         int length;
@@ -3826,7 +3826,7 @@ static unsigned int LoadShaderProgram(unsigned int vShaderId, unsigned int fShad
 #endif
         glGetProgramInfoLog(program, maxLength, &length, log);
 
-        TraceLog(LOG_INFO, "%s", log);
+        printf("\nOpenGL Linking Error Output:\n====\n%s\n====\n", log);
 
 #if defined(_MSC_VER)
         free(log);
