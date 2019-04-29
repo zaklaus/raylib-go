@@ -999,8 +999,10 @@ RLAPI bool CheckCollisionPointTriangle(Vector2 point, Vector2 p1, Vector2 p2, Ve
 // Texture Loading and Drawing Functions (Module: textures)
 //------------------------------------------------------------------------------------
 
-// Image/Texture2D data loading/unloading/saving functions
-RLAPI Image LoadImage(const char *fileName);                                                             // Load image from file into CPU memory (RAM)
+    // Image/Texture2D data loading/unloading/saving functions
+RLAPI Image LoadImage(const char *fileName);    
+    // Image/Texture2D data loading/unloading/saving functions
+RLAPI Image LoadImageFromMemory(void *data, int len);                                                            // Load image from file into CPU memory (RAM)
 RLAPI Image LoadImageEx(Color *pixels, int width, int height);                                           // Load image from Color array data (RGBA - 32bit)
 RLAPI Image LoadImagePro(void *data, int width, int height, int format);                                 // Load image from raw data with parameters
 RLAPI Image LoadImageRaw(const char *fileName, int width, int height, int format, int headerSize);       // Load image from RAW file data
@@ -1262,6 +1264,7 @@ RLAPI float *GetWaveData(Wave wave);                                  // Get sam
 
 // Music management functions
 RLAPI Music LoadMusicStream(const char *fileName);                    // Load music stream from file
+RLAPI Music LoadMusicStreamFromMemory(void *data, int len);                    // Load music stream from memory (OGG only)
 RLAPI void UnloadMusicStream(Music music);                            // Unload music stream
 RLAPI void PlayMusicStream(Music music);                              // Start music playing
 RLAPI void UpdateMusicStream(Music music);                            // Updates buffers for music streaming

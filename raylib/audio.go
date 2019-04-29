@@ -209,6 +209,16 @@ func LoadMusicStream(fileName string) Music {
 	return v
 }
 
+// LoadMusicStreamFromMemory - Load music stream from memory
+func LoadMusicStreamFromMemory(data string) Music {
+	cfileData := C.CString(data)
+	cFileSize := (C.int)(len(data))
+	defer C.free(unsafe.Pointer(cfileData))
+	ret := C.LoadMusicStreamFromMemory(unsafe.Pointer(cfileData), cFileSize)
+	v := *(*Music)(unsafe.Pointer(&ret))
+	return v
+}
+
 // UnloadMusicStream - Unload music stream
 func UnloadMusicStream(music Music) {
 	cmusic := *(*C.Music)(unsafe.Pointer(&music))

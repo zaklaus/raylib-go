@@ -70,6 +70,16 @@ func LoadImagePro(data []byte, width, height int32, format PixelFormat) *Image {
 	return v
 }
 
+// LoadImageFromMemory - Load an image from memory
+func LoadImageFromMemory(data string) *Image {
+	cFileData := C.CString(data)
+	cFileSize := (C.int)(len(data))
+	defer C.free(unsafe.Pointer(cFileData))
+	ret := C.LoadImageFromMemory(unsafe.Pointer(cFileData), cFileSize)
+	v := newImageFromPointer(unsafe.Pointer(&ret))
+	return v
+}
+
 // LoadImageRaw - Load image data from RAW file
 func LoadImageRaw(fileName string, width, height int32, format PixelFormat, headerSize int32) *Image {
 	cfileName := C.CString(fileName)

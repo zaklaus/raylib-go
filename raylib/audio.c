@@ -1071,6 +1071,37 @@ float *GetWaveData(Wave wave)
 // Module Functions Definition - Music loading and stream playing (.OGG)
 //----------------------------------------------------------------------------------
 
+Music LoadMusicStreamFromMemory(void *data, int len)
+{
+    Music music = (MusicData *)malloc(sizeof(MusicData));
+    bool musicLoaded = true;
+
+    // TODO: Add UnloadMusicStreamLoadedFromMemory
+    void *newData = malloc(len);
+    memcpy(newData, data, len);
+
+    // Open ogg audio stream
+    music->ctxOgg = stb_vorbis_open_memory(newData, len, NULL, NULL);
+
+    if (music->ctxOgg == NULL) {
+        free(music);
+        free(newData);
+    }
+    else
+    {
+        stb_vorbis_info info = stb_vorbis_get_info(music->ctxOgg);  // Get Ogg file info
+
+        // OGG bit rate defaults to 16 bit, it's enough for compressed format
+        music->stream = InitAudioStream(info.sample_rate, 16, info.channels);
+        music->totalSamples = (unsigned int)stb_vorbis_stream_length_in_samples(music->ctxOgg); // Independent by channel
+        music->samplesLeft = music->totalSamples;
+        music->ctxType = MUSIC_AUDIO_OGG;
+        music->loopCount = -1;
+    }
+
+    return music;
+}
+
 // Load music stream from file
 Music LoadMusicStream(const char *fileName)
 {

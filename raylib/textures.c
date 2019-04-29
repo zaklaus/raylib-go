@@ -161,6 +161,29 @@ static Image LoadASTC(const char *fileName);  // Load ASTC file
 // Module Functions Definition
 //----------------------------------------------------------------------------------
 
+Image LoadImageFromMemory(void *data, int len)
+{
+    Image image = { 0 };
+
+    int imgWidth = 0;
+    int imgHeight = 0;
+    int imgBpp = 0;
+
+    // NOTE: Using stb_image to load images (Supports: BMP, TGA, PNG, JPG, ...)
+    image.data = stbi_load_from_memory(data, len, &imgWidth, &imgHeight, &imgBpp, 0);
+    
+    image.width = imgWidth;
+    image.height = imgHeight;
+    image.mipmaps = 1;
+
+    if (imgBpp == 1) image.format = UNCOMPRESSED_GRAYSCALE;
+    else if (imgBpp == 2) image.format = UNCOMPRESSED_GRAY_ALPHA;
+    else if (imgBpp == 3) image.format = UNCOMPRESSED_R8G8B8;
+    else if (imgBpp == 4) image.format = UNCOMPRESSED_R8G8B8A8;
+    
+    return image;
+}
+
 // Load image from file into CPU memory (RAM)
 Image LoadImage(const char *fileName)
 {
