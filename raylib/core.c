@@ -1066,26 +1066,6 @@ void EndDrawing(void)
 #endif
 
     SwapBuffers();                  // Copy back buffer to front buffer
-    PollInputEvents();              // Poll user events
-
-    // Frame time control system
-    currentTime = GetTime();
-    drawTime = currentTime - previousTime;
-    previousTime = currentTime;
-
-    frameTime = updateTime + drawTime;
-
-    // Wait for some milliseconds...
-    if (frameTime < targetTime)
-    {
-        Wait((float)(targetTime - frameTime)*1000.0f);
-
-        currentTime = GetTime();
-        double extraTime = currentTime - previousTime;
-        previousTime = currentTime;
-
-        frameTime += extraTime;
-    }
 }
 
 // Initialize 2D mode with custom camera (2D)
@@ -1871,6 +1851,11 @@ bool IsKeyDown(int key)
 {
     if (GetKeyStatus(key) == 1) return true;
     else return false;
+}
+
+void ClearAllInput()
+{
+
 }
 
 // Detect if a key has been released once
@@ -3122,6 +3107,11 @@ static void PollInputEvents(void)
 
     // NOTE: Gamepad (Joystick) input events polling is done asynchonously in another pthread - GamepadThread()
 #endif
+}
+
+void ResetInput()
+{
+    PollInputEvents();
 }
 
 // Copy back buffer to front buffers

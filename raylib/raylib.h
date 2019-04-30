@@ -930,6 +930,8 @@ RLAPI int GetTouchX(void);                                    // Returns touch p
 RLAPI int GetTouchY(void);                                    // Returns touch position Y for touch point 0 (relative to screen size)
 RLAPI Vector2 GetTouchPosition(int index);                    // Returns touch position XY for a touch point index (relative to screen size)
 
+RLAPI void ResetInput();
+
 //------------------------------------------------------------------------------------
 // Gestures and Touch Handling Functions (Module: gestures)
 //------------------------------------------------------------------------------------

@@ -468,6 +468,10 @@ func IsGamepadName(gamepad int32, name string) bool {
 	return v
 }
 
+func PollInputEvents() {
+	C.ResetInput()
+}
+
 // GetGamepadName - Return gamepad internal name id
 func GetGamepadName(gamepad int32) string {
 	cgamepad := (C.int)(gamepad)
